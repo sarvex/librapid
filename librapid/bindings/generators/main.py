@@ -6,7 +6,8 @@ import arrayGenerator
 
 outputDir = "../python/generated"
 
-boilerplate = textwrap.dedent(f"""
+boilerplate = textwrap.dedent(
+    """
             #pragma once
 
             #define LIBRAPID_ASSERT
@@ -18,7 +19,8 @@ boilerplate = textwrap.dedent(f"""
             
             namespace py  = pybind11;
             namespace lrc = librapid;
-        """).strip()
+        """
+).strip()
 
 
 def main():

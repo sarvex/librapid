@@ -22,7 +22,7 @@ class Swizzler:
         }
         """
 
-        params = ", ".join([x + "()" for x in self.swiz])
+        params = ", ".join([f"{x}()" for x in self.swiz])
         return f"template<typename Scalar, int64_t Dims>\nauto {self.vec_name}<Scalar, Dims>::{self.swiz}() const -> {self.vec_name}<Scalar, {len(self.swiz)}> {{\n    return {{{params}}};\n}}"
 
     def setter_implementation(self):
@@ -34,9 +34,9 @@ class Swizzler:
         }
         """
 
-        assignments = ""
-        for a, b in zip(self.swiz, list("xyzw")):
-            assignments += f"{a}(v.{b}());\n"
+        assignments = "".join(
+            f"{a}(v.{b}());\n" for a, b in zip(self.swiz, list("xyzw"))
+        )
         return f"template<typename Scalar, int64_t Dims>\nvoid {self.vec_name}<Scalar, Dims>::{self.swiz}(const {self.vec_name}<Scalar, {len(self.swiz)}> &v) {{\n{assignments}}}"
 
     def test_getter(self):

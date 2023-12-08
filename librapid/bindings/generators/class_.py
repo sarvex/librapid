@@ -18,11 +18,10 @@ class Class:
         return self
 
     def genImplicitConversions(self):
-        ret = ""
-        for other in self.implicitConversions:
-            ret += f"py::implicitly_convertible<{other.type}, {self.type}>();\n"
-
-        return ret
+        return "".join(
+            f"py::implicitly_convertible<{other.type}, {self.type}>();\n"
+            for other in self.implicitConversions
+        )
 
     def genInterface(self, parent="module"):
         ret = f"py::class_<{self.type}>({parent}, \"{self.name}\")\n"

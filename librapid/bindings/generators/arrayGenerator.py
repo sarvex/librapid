@@ -16,12 +16,14 @@ for scalar in [("int16_t", "Int16"),
                ("double", "Double"),
                ("lrc::Complex<float>", "ComplexFloat"),
                ("lrc::Complex<double>", "ComplexDouble")]:
-    for backend in ["CPU", "OpenCL", "CUDA"]:
-        arrayTypes.append({
+    arrayTypes.extend(
+        {
             "scalar": scalar[0],
             "backend": backend,
-            "name": f"Array{scalar[1]}{backend}"
-        })
+            "name": f"Array{scalar[1]}{backend}",
+        }
+        for backend in ["CPU", "OpenCL", "CUDA"]
+    )
 
 
 def generateCppArrayType(config):
@@ -43,9 +45,7 @@ def generateFunctionsForArray(config):
 
     # Static fromData (n dimensions)
     for n in range(1, 9):
-        cppType = ""
-        for j in range(n):
-            cppType += "std::vector<"
+        cppType = "".join("std::vector<" for _ in range(n))
         cppType += config['scalar'] + ">" * n
 
         methods.append(
