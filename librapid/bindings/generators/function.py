@@ -95,7 +95,7 @@ class Function:
 
         pyArgStr = self.pyargs()
         if pyArgStr != "":
-            pyArgStr = ", " + pyArgStr
+            pyArgStr = f", {pyArgStr}"
 
         # Special case for constructors
         if self.isConstructor and self.op is None:

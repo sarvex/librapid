@@ -6,10 +6,7 @@ def isPrimitive(type):
         return True
 
     # Match int, int32_t, int64_t, uint32_t etc.
-    if re.match(r"u?int\d+_t", type):
-        return True
-
-    return False
+    return bool(re.match(r"u?int\d+_t", type))
 
 
 class Argument:
@@ -66,9 +63,9 @@ class Argument:
 
     def param(self):
         if self.isArgs:
-            return f"py::args args"
+            return "py::args args"
         elif self.isKwargs:
-            return f"py::kwargs kwargs"
+            return "py::kwargs kwargs"
         else:
             isPrimitiveType = isPrimitive(self.type)
             return f"{'const ' if self.const and not isPrimitiveType else ''}{self.type} {'&' if self.ref and not isPrimitiveType else ''}{'*' if self.pointer else ''}{self.name}"
